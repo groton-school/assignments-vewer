@@ -1,0 +1,19 @@
+{
+    "name": "groton-school/oauth2-sky-api",
+    "description": "This package provides Blackbaud SKY API OAuth 2.0 support for the PHP League's OAuth 2.0 Client",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Seth Battis",
+            "email": "sbattis@groton.org"
+        }
+    ],
+    "require": {
+        "league/oauth2-client": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "GrotonSchool\\OAuth2\\Client\\": "src"
+        }
+    }
+}
