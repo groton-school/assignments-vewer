@@ -1,10 +1,10 @@
 {
-    "name": "groton-school/major-assignments",
+    "name": "groton-school/assignments-viewer",
     "description": "Return an individual student's list of assignments",
     "license": "GPL-3.0",
     "autoload": {
         "psr-4": {
-            "GrotonSchool\\MajorAssignments\\": "src/"
+            "GrotonSchool\\": "src/"
         }
     },
     "authors": [
@@ -13,5 +13,16 @@
             "email": "sbattis@groton.org"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-pdo": "*",
+        "ext-simplexml": "*",
+        "celtic/lti": "^4.5",
+        "league/oauth2-client": "^2.6",
+        "vlucas/phpdotenv": "^5.4",
+        "php-di/php-di": "^6.3"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6",
+        "friendsofphp/php-cs-fixer": "^3.2"
+    }
 }
