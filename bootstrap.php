@@ -3,13 +3,15 @@
 use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use Dotenv\Dotenv;
+use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 use League\OAuth2\Client\Token\AccessToken;
-use PDO;
 
 require __DIR__ . '/vendor/autoload.php';
 
-Dotenv::createImmutable(__DIR__)->load();
-date_default_timezone_set($_ENV['TIMEZONE']);
+if (file_exists(__DIR__ . '/.env')) {
+    Dotenv::createImmutable(__DIR__)->load();
+}
+date_default_timezone_set(getenv('TIMEZONE'));
 
 session_start();
 
@@ -31,6 +33,17 @@ $container->set(
     DataConnector::class,
     function (Container $c) {
         return new DataConnector($c->get(PDO::class));
+    }
+);
+$container->set(
+    BlackbaudSKY::class,
+    function () {
+        return new BlackbaudSKY([
+            'clientId' => getenv('OAUTH_CLIENT_ID'),
+            'clientSecret' => getenv('OAUTH_CLIENT_SECRET'),
+            'redirectUri' => getenv('OAUTH_REDIRECT_URL'),
+            BlackbaudSKY::ACCESS_KEY => getenv('BLACKBAUD_SUBSCRIPTION_KEY')
+        ]);
     }
 );
 
