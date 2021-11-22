@@ -33,6 +33,7 @@ class BlackbaudSKY extends AbstractProvider
 
     public function __construct(array $options = [], array $collaborators = [])
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
         parent::__construct($options, $collaborators);
 
         if (empty($options[self::ACCESS_KEY])) {
@@ -44,29 +45,35 @@ class BlackbaudSKY extends AbstractProvider
 
     public function getBaseAuthorizationUrl()
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
         return 'https://oauth2.sky.blackbaud.com/authorization';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
         return 'https://oauth2.sky.blackbaud.com/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     protected function getDefaultScopes()
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
         return [];
     }
 
     protected function checkResponse(ResponseInterface $response, $data)
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     protected function createResourceOwner(array $response, AccessToken $token)
     {
+        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     /**
@@ -118,7 +125,6 @@ class BlackbaudSKY extends AbstractProvider
             };
         }
 
-        session_start();
         if (empty($options[self::OPT_PARAMS][self::PARAM_CODE])) {
             call_user_func($options[self::OPT_AUTH_CODE_CALLBACK]);
         } elseif (empty($options[self::OPT_PARAMS][self::PARAM_STATE]) || (

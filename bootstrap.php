@@ -1,6 +1,7 @@
 <?php
 
 use ceLTIc\LTI\DataConnector\DataConnector;
+use ceLTIc\LTI\Util;
 use DI\Container;
 use Dotenv\Dotenv;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
@@ -11,7 +12,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 if (file_exists(__DIR__ . '/.env')) {
     Dotenv::createImmutable(__DIR__)->load();
 }
-date_default_timezone_set(getenv('TIMEZONE'));
+date_default_timezone_set(getenv('TZ'));
 
 session_start();
 
@@ -32,7 +33,7 @@ $container->set(
 $container->set(
     DataConnector::class,
     function (Container $c) {
-        return new DataConnector($c->get(PDO::class));
+        return DataConnector::getDataConnector($c->get(PDO::class));
     }
 );
 $container->set(
