@@ -27,7 +27,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php install.php"
+            "php schema-install.php"
         ]
     }
 }
