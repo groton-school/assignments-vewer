@@ -56,7 +56,7 @@ class UserFactory extends PDOFactory
         ))) {
             return $this->getByUserId($userId, $toolConsumerInstanceGUID);
         } else {
-            throw new Exception($this->pdo->errorInfo(), $this->pdo->errorCode());
+            throw new Exception(implode(PHP_EOL, $this->pdo->errorInfo()), $this->pdo->errorCode());
         }
     }
 }

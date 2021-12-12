@@ -1,11 +1,11 @@
 <?php
 
 use ceLTIc\LTI\DataConnector\DataConnector;
-use ceLTIc\LTI\Util;
 use DI\Container;
 use Dotenv\Dotenv;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 use League\OAuth2\Client\Token\AccessToken;
+use GrotonSchool\AssignmentsViewer\UserFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 

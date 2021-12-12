@@ -137,7 +137,10 @@ class BlackbaudSKY extends AbstractProvider
             call_user_func($options[self::OPT_ERROR_CALLBACK], 'invalid state');
         } else {
             try {
-                call_user_func($options[self::OPT_ACCESS_TOKEN_CALLBACK], $this->getAccessToken('authorization_code', ['code' => self::ARG_AUTH_CODE]));
+                call_user_func(
+                    $options[self::OPT_ACCESS_TOKEN_CALLBACK],
+                    $this->getAccessToken('authorization_code', ['code' => self::ARG_AUTH_CODE])
+                );
             } catch (IdentityProviderException $e) {
                 call_user_func($options[self::OPT_ERROR_CALLBACK], $e->getMessage(), $e->getCode());
             }

@@ -4,7 +4,6 @@ namespace GrotonSchool\AssignmentsViewer;
 
 use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Tool;
-use ceLTIc\LTI\Util;
 use DI\Container;
 
 class AssignmentsViewerTool extends Tool
@@ -29,7 +28,10 @@ class AssignmentsViewerTool extends Tool
             $_SESSION[IS_STAFF] = $this->userResult->isStaff();
             $user = $userFactory->getByUserId($_SESSION[USER_ID], $_SESSION[CONSUMER_GUID]);
             if (!$user) {
-                $user = $userFactory->create(['user_id' => $_SESSION[USER_ID], 'tool_consumer_instance_guid' => $_SESSION[CONSUMER_GUID]]);
+                $user = $userFactory->create([
+                    'user_id' => $_SESSION[USER_ID],
+                    'tool_consumer_instance_guid' => $_SESSION[CONSUMER_GUID]
+                ]);
             }
             if (!$user->refresh_token || strtotime($user->expires) < time() - 10) {
                 $this->redirectUrl = getenv('APP_URL') . '/auth/token';
