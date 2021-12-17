@@ -1,6 +1,7 @@
 <?php
 
 use DI\Container;
+use GrotonSchool\AssignmentsViewer\Users\UserFactory;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 
 require_once __DIR__ . '/../../bootstrap.php';
@@ -37,31 +38,15 @@ if (!isset($_GET['code'])) {
             'code' => $_GET['code']
         ]);
 
-        storeToken($accessToken);
-
-        // We have an access token, which we may use in authenticated
-        // requests against the service provider's API.
-        echo 'Access Token: ' . $accessToken->getToken() . "<br>";
-        echo 'Refresh Token: ' . $accessToken->getRefreshToken() . "<br>";
-        echo 'Expired in: ' . $accessToken->getExpires() . "<br>";
-        echo 'Already expired? ' . ($accessToken->hasExpired() ? 'expired' : 'not expired') . "<br>";
-
-        // Using the access token, we may look up details about the
-        // resource owner.
-        $resourceOwner = $provider->getResourceOwner($accessToken);
-
-        var_export($resourceOwner->toArray());
-
-        // The provider provides a way to get an authenticated API request for
-        // the service, using the access token; it returns an object conforming
-        // to Psr\Http\Message\RequestInterface.
-        $request = $provider->getAuthenticatedRequest(
-            'GET',
-            'https://service.example.com/resource',
-            $accessToken
-        );
+        $user = $container->get(UserFactory::class)->getByInstance($_SESSION[CONSUMER_GUID], $_SESSION[USER_ID]);
+        $user->update([
+            'refresh_token' => $accessToken->getRefreshToken(),
+            'expires' => date('Y-m-d H:i:s', time() + $accessToken->getValues()['refresh_token_expires_in'])
+        ]);
+        echo '<pre>';
+        var_dump($user);
+        var_dump($accessToken);
     } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
-        // Failed to get the access token or user details.
-        exit($e->getMessage());
+        echo $e->getMessage();
     }
 }

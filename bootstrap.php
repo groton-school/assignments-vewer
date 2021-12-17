@@ -3,11 +3,11 @@
 use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use Dotenv\Dotenv;
+use GrotonSchool\AssignmentsViewer\Users\UserFactory;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
-use League\OAuth2\Client\Token\AccessToken;
-use GrotonSchool\AssignmentsViewer\UserFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/constants.php';
 
 if (file_exists(__DIR__ . '/.env')) {
     Dotenv::createImmutable(__DIR__)->load();
@@ -47,27 +47,3 @@ $container->set(
         ]);
     }
 );
-
-function storeToken(AccessToken $accessToken)
-{
-    global $container;
-    $expires = new DateTime('now');
-    $expires->add(new DateInterval('PT' . $accessToken->getValues()['refresh_token_expires_in'] . 'S'));
-    $container->get(UserFactory::class)->updateByUserId(
-        $_SESSION[USER_ID],
-        $_SESSION[CONSUMER_GUID],
-        [
-            'refresh_token' => $accessToken->getRefreshToken(),
-            'expires'       => $expires->format(DateTime::ISO8601)
-        ]
-    );
-    $_SESSION[TOKEN] = $accessToken->getToken();
-    header('Location: ../app');
-    exit;
-}
-
-define('USER_ID', 'user_id');
-define('CONSUMER_GUID', 'tool_consumer_instance_guid');
-define('IS_LEARNER', 'is_learner');
-define('IS_STAFF', 'is_staff');
-define('TOKEN', 'access_token');

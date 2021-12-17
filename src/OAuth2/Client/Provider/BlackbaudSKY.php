@@ -2,7 +2,6 @@
 
 namespace GrotonSchool\OAuth2\Client\Provider;
 
-use DateTime;
 use Exception;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -33,7 +32,6 @@ class BlackbaudSKY extends AbstractProvider
 
     public function __construct(array $options = [], array $collaborators = [])
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
         parent::__construct($options, $collaborators);
 
         if (empty($options[self::ACCESS_KEY])) {
@@ -45,35 +43,29 @@ class BlackbaudSKY extends AbstractProvider
 
     public function getBaseAuthorizationUrl()
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
         return 'https://oauth2.sky.blackbaud.com/authorization';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
         return 'https://oauth2.sky.blackbaud.com/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     protected function getDefaultScopes()
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
         return [];
     }
 
     protected function checkResponse(ResponseInterface $response, $data)
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     protected function createResourceOwner(array $response, AccessToken $token)
     {
-        error_log(__CLASS__ . '.' . __FUNCTION__);
     }
 
     /**
@@ -88,62 +80,5 @@ class BlackbaudSKY extends AbstractProvider
             self::ACCESS_KEY => $this->accessKey,
             'Authorization' => 'Bearer ' . $token
         ];
-    }
-
-    public function handleAuthorizationCodeFlow($options = [])
-    {
-        if (empty($options[self::OPT_REDIRECT_URI])) {
-            $options[self::OPT_REDIRECT_URI] = $_SERVER['REQUEST_URI'];
-        }
-
-        if (empty($options[self::OPT_PARAMS])) {
-            $options[self::OPT_PARAMS] = $_GET;
-        }
-
-        if (empty($options[self::OPT_AUTH_CODE_CALLBACK])) {
-            $options[self::OPT_AUTH_CODE_CALLBACK] = function () {
-                header('Location: ' . $this->getAuthorizationUrl());
-                exit(0);
-            };
-        }
-
-        if (empty($options[self::OPT_ACCESS_TOKEN_CALLBACK])) {
-            $options[self::OPT_ACCESS_TOKEN_CALLBACK] = function ($accessToken) {
-                echo json_encode($accessToken);
-                exit(0);
-            };
-        }
-
-        if (empty($options[self::OPT_ERROR_CALLBACK])) {
-            $options[self::OPT_ERROR_CALLBACK] = function ($message, $code) {
-                $error = ['error' => $message];
-                if (!empty($code)) {
-                    $error['code'] = $code;
-                }
-                echo json_encode($error);
-                exit(0);
-            };
-        }
-
-        if (empty($options[self::OPT_PARAMS][self::PARAM_CODE])) {
-            call_user_func($options[self::OPT_AUTH_CODE_CALLBACK]);
-        } elseif (empty($options[self::OPT_PARAMS][self::PARAM_STATE]) || (
-            !empty($_SESSION[self::SESSION_STATE]) &&
-            $options[self::OPT_PARAMS][self::PARAM_STATE] !== $_SESSION[self::SESSION_STATE]
-            )) {
-            if (!empty($_SESSION[self::SESSION_STATE])) {
-                unset($_SESSION[self::SESSION_STATE]);
-            }
-            call_user_func($options[self::OPT_ERROR_CALLBACK], 'invalid state');
-        } else {
-            try {
-                call_user_func(
-                    $options[self::OPT_ACCESS_TOKEN_CALLBACK],
-                    $this->getAccessToken('authorization_code', ['code' => self::ARG_AUTH_CODE])
-                );
-            } catch (IdentityProviderException $e) {
-                call_user_func($options[self::OPT_ERROR_CALLBACK], $e->getMessage(), $e->getCode());
-            }
-        }
     }
 }
