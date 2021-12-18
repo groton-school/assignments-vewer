@@ -3,8 +3,8 @@
 use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use Dotenv\Dotenv;
-use GrotonSchool\AssignmentsViewer\Users\UserFactory;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
+use GuzzleHttp\Client;
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/constants.php';
@@ -43,7 +43,8 @@ $container->set(
             'clientId' => getenv('OAUTH_CLIENT_ID'),
             'clientSecret' => getenv('OAUTH_CLIENT_SECRET'),
             'redirectUri' => getenv('OAUTH_REDIRECT_URL'),
-            BlackbaudSKY::ACCESS_KEY => getenv('BLACKBAUD_SUBSCRIPTION_KEY')
+            BlackbaudSKY::ACCESS_KEY => getenv('BLACKBAUD_SUBSCRIPTION_KEY'),
+            BlackbaudSKY::ACCESS_TOKEN => $_SESSION[TOKEN] ?: null
         ]);
     }
 );

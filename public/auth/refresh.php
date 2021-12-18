@@ -16,6 +16,6 @@ $user->update([
     'refresh_token' => $accessToken->getRefreshToken(),
     'expires' => date('Y-m-d H:i:s', time() + $accessToken->getValues()['refresh_token_expires_in'])
 ]);
-echo '<pre>';
-var_dump($user);
-var_dump($accessToken);
+$_SESSION[TOKEN] = $accessToken;
+header('Location: ../app.php');
+exit(0);

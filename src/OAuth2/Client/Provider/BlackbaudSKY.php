@@ -3,15 +3,16 @@
 namespace GrotonSchool\OAuth2\Client\Provider;
 
 use Exception;
+use GuzzleHttp\Client;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 use Psr\Http\Message\ResponseInterface;
 
 class BlackbaudSKY extends AbstractProvider
 {
-    const ACCESS_KEY = 'Bb-Api-Subscriber-Key';
+    const ACCESS_KEY = 'Bb-Api-Subscription-Key';
+    const ACCESS_TOKEN = 'access_token';
 
     const SESSION_STATE = 'oauth2_state';
 
@@ -30,6 +31,9 @@ class BlackbaudSKY extends AbstractProvider
 
     private $accessKey;
 
+    /** @var AccessToken */
+    private $accessToken;
+
     public function __construct(array $options = [], array $collaborators = [])
     {
         parent::__construct($options, $collaborators);
@@ -38,6 +42,10 @@ class BlackbaudSKY extends AbstractProvider
             throw new Exception('Blackbaud access key required');
         } else {
             $this->accessKey = $options[self::ACCESS_KEY];
+        }
+
+        if (!empty($options[self::ACCESS_TOKEN])) {
+            $this->accessToken = $options[self::ACCESS_TOKEN];
         }
     }
 
@@ -49,6 +57,11 @@ class BlackbaudSKY extends AbstractProvider
     public function getBaseAccessTokenUrl(array $params)
     {
         return 'https://oauth2.sky.blackbaud.com/token';
+    }
+
+    public function getBaseApiUrl()
+    {
+        return 'https://api.sky.blackbaud.com';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
@@ -80,5 +93,23 @@ class BlackbaudSKY extends AbstractProvider
             self::ACCESS_KEY => $this->accessKey,
             'Authorization' => 'Bearer ' . $token
         ];
+    }
+
+    public function getAccessToken($grant = '', array $options = [])
+    {
+        if (!empty($grant)) {
+            $this->accessToken = parent::getAccessToken($grant, $options);
+            return $this->accessToken;
+        } elseif (!empty($this->accessToken)) {
+            return $this->accessToken->getToken();
+        } else {
+            throw new Exception('Stored access token or grant type required');
+        }
+    }
+
+    public function endpoint(string $path): SkyAPI
+    {
+        assert($this->accessToken, new Exception('No stored access token'));
+        return new SkyAPI($this, $path);
     }
 }
