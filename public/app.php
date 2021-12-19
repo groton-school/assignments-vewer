@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/loading.css">
     <body>
         <div id="content">
-            <span class="loading big">◯</span>
+            <span class="loading big">⬤</span>
         </div>
         <?php
 

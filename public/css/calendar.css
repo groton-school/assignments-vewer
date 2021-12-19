@@ -26,13 +26,18 @@ td {
     margin: 0;
     border: solid 0.25px black;
     width: calc(100% / 7);
+    height: 1in;
 }
 
 td .date {
     position: absolute;
     top: 0;
     left: 0;
-    color: gray;
+    color: lightgray;
+    z-index: -1;
+    max-width: 100%;
+    max-height: 100%;
+    font-size: 1in;
 }
 
 .tooltip {
@@ -46,7 +51,10 @@ td .date {
     border: solid 1px gray;
     border-radius: 1em;
     position: absolute;
+    left: -50%;
+    top: -50%;
     z-index: 1;
+    background-color: white;
 }
 
 .tooltip:hover .tooltip.text {

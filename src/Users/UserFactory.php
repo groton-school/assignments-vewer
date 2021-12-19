@@ -2,7 +2,7 @@
 
 namespace GrotonSchool\AssignmentsViewer\Users;
 
-use GrotonSchool\PDOFactory\PDOFactory;
+use Battis\PDOFactory\PDOFactory;
 use PDO;
 
 /**

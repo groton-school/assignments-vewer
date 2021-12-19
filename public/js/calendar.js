@@ -3,7 +3,9 @@ function calendar(data) {
     content.innerHTML = '';
     for (const [year, ydata] of Object.entries(data)) {
         for (const [month, mdata] of Object.entries(ydata)) {
-            const days = new Date(year, month, 0).getDate();
+            const days = new Date(year, month+1, 0).getDate();
+            console.log(year, month, new Date(year, month, 0));
+            console.log(year, month, new Date(year, month, 1));
             const calendar = document.createElement('table');
             content.appendChild(calendar);
             calendar.innerHTML = `
@@ -34,8 +36,11 @@ function calendar(data) {
                 if (data[year][month][`${day}`]) {
                     for (const assignment of data[year][month][`${day}`]) {
                         entry = document.createElement('div');
-                        entry.classList.add('tooltip');
-                        entry.innerHTML = `${assignment.name}<span class="tooltip text">${assignment.description}</span>`;
+                        entry.classList.add('tooltip', 'assignment');
+                        entry.innerHTML = `
+                            <span class="assignment title">${assignment.name}</span>
+                            <div class="tooltip text">
+                                <div class="description">${assignment.description}</div>`;
                         list.appendChild(entry);
                     }
                 }

@@ -27,7 +27,11 @@ class AssignmentsViewerTool extends Tool
             $_SESSION[IS_STAFF] = $this->userResult->isStaff();
             $user = $this->container->get(UserFactory::class)
                 ->getByInstance($_SESSION[CONSUMER_GUID], $_SESSION[USER_ID]);
-            if (!$user || !$user->getRefreshToken() || !$user->getExpires() || strtotime($user->getExpires()) < time() - 10) {
+            if (!$user ||
+                !$user->getRefreshToken() ||
+                !$user->getExpires() ||
+                strtotime($user->getExpires()) < time() - 10
+            ) {
                 $this->redirectUrl = getenv('APP_URL') . '/auth/token';
             } else {
                 $this->redirectUrl = getenv('APP_URL') . '/auth/refresh';

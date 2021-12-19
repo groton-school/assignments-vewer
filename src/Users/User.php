@@ -2,7 +2,7 @@
 
 namespace GrotonSchool\AssignmentsViewer\Users;
 
-use GrotonSchool\PDOFactory\PDOObject;
+use Battis\PDOFactory\PDOObject;
 
 /**
  * @method string getToolConsumerInstanceGuid()
