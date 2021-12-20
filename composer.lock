@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb2c8baf5f33914cce5fe1a6a0b779d3",
+    "content-hash": "f5903851b89d94297466b24f0d3ab84e",
     "packages": [
         {
             "name": "battis/path",

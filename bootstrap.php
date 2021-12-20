@@ -48,3 +48,9 @@ $container->set(
         ]);
     }
 );
+$container->set(
+    Client::class,
+    function (BlackbaudSKY $sky) {
+        return new Client(['base_uri' => $sky->getBaseApiUrl()]);
+    }
+);

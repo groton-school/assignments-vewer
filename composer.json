@@ -21,7 +21,8 @@
         "vlucas/phpdotenv": "^5.4",
         "php-di/php-di": "^6.3",
         "battis/pdo-factory": "^0.1.0",
-        "groton-school/oauth2-blackbaudsky": "^0.1.0"
+        "groton-school/oauth2-blackbaudsky": "^0.1.0",
+        "guzzlehttp/guzzle": "^7.4"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",

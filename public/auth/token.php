@@ -44,7 +44,7 @@ if (!isset($_GET['code'])) {
             'expires' => date('Y-m-d H:i:s', time() + $accessToken->getValues()['refresh_token_expires_in'])
         ]);
         $_SESSION[TOKEN] = $accessToken;
-        header('Location: ../app.php');
+        header('Location: ../');
         exit(0);
     } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
         echo $e->getMessage();
