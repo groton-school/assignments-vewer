@@ -5,6 +5,8 @@ use DI\Container;
 use Dotenv\Dotenv;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleRetry\GuzzleRetryMiddleware;
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/constants.php';
@@ -51,6 +53,11 @@ $container->set(
 $container->set(
     Client::class,
     function (BlackbaudSKY $sky) {
-        return new Client(['base_uri' => $sky->getBaseApiUrl()]);
+        $stack = HandlerStack::create();
+        $stack->push(GuzzleRetryMiddleware::factory());
+        return new Client([
+            'base_uri' => $sky->getBaseApiUrl(),
+            'handler' => $stack
+        ]);
     }
 );
