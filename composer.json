@@ -24,7 +24,8 @@
         "groton-school/oauth2-blackbaudsky": "^0.1.0",
         "guzzlehttp/guzzle": "^7.4",
         "caseyamcl/guzzle_retry_middleware": "^2.7",
-        "google/cloud-secret-manager": "^1.9"
+        "google/cloud-secret-manager": "^1.9",
+        "battis/lazy-secrets": "^0.1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",

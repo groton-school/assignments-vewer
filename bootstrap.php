@@ -1,9 +1,9 @@
 <?php
 
+use Battis\LazySecrets\Secrets;
 use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use Dotenv\Dotenv;
-use GrotonSchool\AssignmentsViewer\Google\Secrets;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
