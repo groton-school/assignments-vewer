@@ -5,6 +5,7 @@ namespace GrotonSchool\AssignmentsViewer;
 use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Tool;
 use DI\Container;
+use GrotonSchool\AssignmentsViewer\Google\Secrets;
 use GrotonSchool\AssignmentsViewer\Users\UserFactory;
 
 class AssignmentsViewerTool extends Tool
@@ -32,9 +33,9 @@ class AssignmentsViewerTool extends Tool
                 !$user->getExpires() ||
                 strtotime($user->getExpires()) < time() - 10
             ) {
-                $this->redirectUrl = $_ENV['APP_URL'] . '/auth/token';
+                $this->redirectUrl = Secrets::get('APP_URL') . '/auth/token';
             } else {
-                $this->redirectUrl = $_ENV['APP_URL'] . '/auth/refresh';
+                $this->redirectUrl = Secrets::get('APP_URL') . '/auth/refresh';
             }
         } else {
             $this->reason = 'unauthorized';

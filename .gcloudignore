@@ -1,6 +1,4 @@
 #!include:.gitignore
-!.env
-
 .git*
 *.md
 schema

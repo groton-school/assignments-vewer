@@ -3,6 +3,7 @@
 use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use Dotenv\Dotenv;
+use GrotonSchool\AssignmentsViewer\Google\Secrets;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -14,7 +15,7 @@ require_once __DIR__ . '/constants.php';
 if (file_exists(__DIR__ . '/.env')) {
     Dotenv::createImmutable(__DIR__)->load();
 }
-date_default_timezone_set($_ENV['TIMEZONE']);
+date_default_timezone_set(Secrets::get('TIMEZONE'));
 
 session_start();
 
@@ -22,10 +23,10 @@ $container = new Container();
 $container->set(
     PDO::class,
     function () {
-        $socket = $_ENV['DB_INSTANCE_SOCKET'];
-        $db = $_ENV['DB_NAME'];
-        $user = $_ENV['DB_USER'];
-        $password = $_ENV['DB_PASSWORD'];
+        $socket = Secrets::get('DB_INSTANCE_SOCKET');
+        $db = Secrets::get('DB_NAME');
+        $user = Secrets::get('DB_USER');
+        $password = Secrets::get('DB_PASSWORD');
         return new PDO(
             "pgsql:host={$socket};dbname={$db}",
             $user,
@@ -43,10 +44,10 @@ $container->set(
     BlackbaudSKY::class,
     function () {
         return new BlackbaudSKY([
-            'clientId' => $_ENV['OAUTH_CLIENT_ID'],
-            'clientSecret' => $_ENV['OAUTH_CLIENT_SECRET'],
-            'redirectUri' => $_ENV['OAUTH_REDIRECT_URL'],
-            BlackbaudSKY::ACCESS_KEY => $_ENV['BLACKBAUD_SUBSCRIPTION_KEY'],
+            'clientId' => Secrets::get('OAUTH_CLIENT_ID'),
+            'clientSecret' => Secrets::get('OAUTH_CLIENT_SECRET'),
+            'redirectUri' => Secrets::get('OAUTH_REDIRECT_URL'),
+            BlackbaudSKY::ACCESS_KEY => Secrets::get('BLACKBAUD_SUBSCRIPTION_KEY'),
             BlackbaudSKY::ACCESS_TOKEN => $_SESSION[TOKEN] ?: null
         ]);
     }
