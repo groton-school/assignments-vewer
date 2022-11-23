@@ -1,5 +1,7 @@
 <?php
 
+/* pass-through to SKY API for front-end client */
+
 use DI\Container;
 use GrotonSchool\AssignmentsViewer\Users\User;
 use GrotonSchool\AssignmentsViewer\Users\UserFactory;
@@ -20,7 +22,7 @@ $client = $container->get(Client::class);
 
 $request = $sky->getAuthenticatedRequest(
     $_REQUEST['method'] ?: 'GET',
-    preg_replace('/:user_id/', $user->getUserId(), $_REQUEST['url']),
+    preg_replace('/:user_id/', $user->getUserId(), $_REQUEST['url']), // TODO match other API parameters?
     $sky->getAccessToken(),
     $_REQUEST['options'] ?: []
 );
