@@ -32,9 +32,9 @@ class AssignmentsViewerTool extends Tool
                 !$user->getExpires() ||
                 strtotime($user->getExpires()) < time() - 10
             ) {
-                $this->redirectUrl = getenv('APP_URL') . '/auth/token';
+                $this->redirectUrl = $_ENV['APP_URL'] . '/auth/token';
             } else {
-                $this->redirectUrl = getenv('APP_URL') . '/auth/refresh';
+                $this->redirectUrl = $_ENV['APP_URL'] . '/auth/refresh';
             }
         } else {
             $this->reason = 'unauthorized';

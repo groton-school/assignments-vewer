@@ -20,7 +20,7 @@ $client = $container->get(Client::class);
 
 $request = $sky->getAuthenticatedRequest(
     $_REQUEST['method'] ?: 'GET',
-    preg_replace('/:user_id/', $user->getUserId(), $_REQUEST['url']), // TODO others?
+    preg_replace('/:user_id/', $user->getUserId(), $_REQUEST['url']),
     $sky->getAccessToken(),
     $_REQUEST['options'] ?: []
 );

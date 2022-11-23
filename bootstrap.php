@@ -14,7 +14,7 @@ require_once __DIR__ . '/constants.php';
 if (file_exists(__DIR__ . '/.env')) {
     Dotenv::createImmutable(__DIR__)->load();
 }
-date_default_timezone_set(getenv('TZ'));
+date_default_timezone_set($_ENV['TIMEZONE']);
 
 session_start();
 
@@ -22,13 +22,14 @@ $container = new Container();
 $container->set(
     PDO::class,
     function () {
-        $parts = parse_url(getenv('DATABASE_URL'));
-        extract($parts);
-        $path = ltrim($path, "/");
+        $socket = $_ENV['DB_INSTANCE_SOCKET'];
+        $db = $_ENV['DB_NAME'];
+        $user = $_ENV['DB_USER'];
+        $password = $_ENV['DB_PASSWORD'];
         return new PDO(
-            "pgsql:host={$host};port={$port};dbname={$path};sslmode=require",
+            "pgsql:host={$socket};dbname={$db}",
             $user,
-            $pass
+            $password
         );
     }
 );
@@ -42,10 +43,10 @@ $container->set(
     BlackbaudSKY::class,
     function () {
         return new BlackbaudSKY([
-            'clientId' => getenv('OAUTH_CLIENT_ID'),
-            'clientSecret' => getenv('OAUTH_CLIENT_SECRET'),
-            'redirectUri' => getenv('OAUTH_REDIRECT_URL'),
-            BlackbaudSKY::ACCESS_KEY => getenv('BLACKBAUD_SUBSCRIPTION_KEY'),
+            'clientId' => $_ENV['OAUTH_CLIENT_ID'],
+            'clientSecret' => $_ENV['OAUTH_CLIENT_SECRET'],
+            'redirectUri' => $_ENV['OAUTH_REDIRECT_URL'],
+            BlackbaudSKY::ACCESS_KEY => $_ENV['BLACKBAUD_SUBSCRIPTION_KEY'],
             BlackbaudSKY::ACCESS_TOKEN => $_SESSION[TOKEN] ?: null
         ]);
     }

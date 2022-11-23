@@ -1,6 +1,5 @@
 <?php
 
-use ceLTIc\LTI\DataConnector\DataConnector;
 use DI\Container;
 use GrotonSchool\AssignmentsViewer\AssignmentsViewerTool;
 
