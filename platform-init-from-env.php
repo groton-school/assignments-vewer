@@ -1,8 +1,8 @@
 <?php
 
+use Battis\LazySecrets\Secrets;
 use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Platform;
-use GrotonSchool\AssignmentsViewer\Google\Secrets;
 
 require_once __DIR__ . '/../bootstrap.php';
 /** @var DI\Container $container */

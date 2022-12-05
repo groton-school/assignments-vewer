@@ -23,6 +23,7 @@ $container = new Container();
 $container->set(
     PDO::class,
     function () {
+        // FIXME move away from expensive Cloud SQL to BigTable!
         $socket = Secrets::get('DB_INSTANCE_SOCKET');
         $db = Secrets::get('DB_NAME');
         $user = Secrets::get('DB_USER');
