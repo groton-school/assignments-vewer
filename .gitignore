@@ -1,3 +1,5 @@
 .DS_Store
-/vendor/
-/.nova/
+/vendor
+/.nova/*
+!/.nova/Artwork
+!/.nova/Configuration.json
